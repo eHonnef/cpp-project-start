@@ -1,0 +1,18 @@
+#include <fmt/core.h>
+#include <sample/Example.hpp>
+#include <units.h>
+
+Dummy::Dummy() {}
+
+bool Dummy::doSomething() {
+  // Do silly things, using some C++17 features to enforce C++17 builds only.
+  constexpr int digits[2] = {0, 1};
+  auto [zero, one] = digits;
+  return zero + one;
+}
+
+void Dummy::PrintStuff() {
+  constexpr int nCelsius = 30;
+  fmt::print("{}ª Celsius is {} kelvins\n", nCelsius,
+             units::convert<units::temperature::celsius, units::temperature::kelvin>(nCelsius));
+}
