@@ -17,7 +17,13 @@ public:
 
   /**
    * @brief Print stuff
-   * 
+   *
    */
   void PrintStuff();
+
+  /**
+   * @brief Print version
+   *
+   */
+  void PrintVersion();
 };

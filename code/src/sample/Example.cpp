@@ -1,3 +1,4 @@
+#include <Config.hpp>
 #include <fmt/core.h>
 #include <sample/Example.hpp>
 #include <units.h>
@@ -15,4 +16,9 @@ void Dummy::PrintStuff() {
   constexpr int nCelsius = 30;
   fmt::print("{}ª Celsius is {} kelvins\n", nCelsius,
              units::convert<units::temperature::celsius, units::temperature::kelvin>(nCelsius));
+}
+
+void Dummy::PrintVersion() {
+  fmt::print("C++ Project starter v{}.{}.{}.{}\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR,
+             PROJECT_VERSION_PATCH, PROJECT_VERSION_TWEAK);
 }

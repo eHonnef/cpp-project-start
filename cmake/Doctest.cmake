@@ -1,5 +1,6 @@
-if(ENABLE_DOCTESTS)
+if(${enable_tests})
   include(CTest)
+  include(FetchContent)
   add_definitions(-DENABLE_DOCTEST_IN_LIBRARY)
 
   FetchContent_Declare(

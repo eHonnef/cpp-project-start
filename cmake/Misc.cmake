@@ -1,5 +1,5 @@
 # --------------------------------------------------------------------------------
-# Misc (no change needed).
+# Misc
 # --------------------------------------------------------------------------------
 # Have CMake parse the config file, generating the config header, with correct
 # definitions. Here only used to make version number available to the source

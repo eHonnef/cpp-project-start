@@ -3,8 +3,11 @@
 # --------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.14)
 
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include(Colors)
+message(STATUS "Using toolchain: ${toolchain}")
+# include(toolchains/${toolchain})
 include(LTO)
 include(Warnings)
 
@@ -32,16 +35,16 @@ endif()
 
 # Enable/disable options (these can be overriden by the command line)
 option(
-  enable_warnings_settings
+  ENABLE_WARNINGS_SETTINGS
   "Allow target_set_warnings to add flags and defines.
                                  Set this to OFF if you want to provide your own warning parameters."
   ${main_project})
 option(enable_lto "Enable link time optimization" ON)
 option(
-  build_tests
+  enable_tests
   "Include tests in the library. Setting this to OFF will remove all doctest related code."
   ${main_project})
-option(build_documentation "Build the documentation" OFF)
+option(enable_documentation "Enable the documentation build" OFF)
 
 # --------------------------------------------------------------------------------
 # Include cmake stuff
@@ -50,7 +53,6 @@ include(Documentation)
 include(Misc)
 
 if(${main_project})
-  include(Doctest)
   include(ConfigSafeGuards)
 endif()
 
@@ -90,5 +92,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC 3rdPartyBlob)
 # Main files target
 # --------------------------------------------------------------------------------
 if(${main_project})
+  # Main files
   add_subdirectory(app)
+
+  # Testings
+  add_subdirectory(tests)
 endif()

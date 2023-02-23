@@ -3,13 +3,15 @@ cmake_minimum_required(VERSION 3.14)
 # ------------------------------------------------------------------------------------------------------------
 # Add an executable for the main files app/main.cpp. If you add more
 # executables, copy these lines accordingly.
-add_executable(main Main.cpp) # Name of exec. and location of file.
+set(target_name main)
+add_executable(${target_name} Main.cpp) # Name of exec. and location of file.
+# Dependencies
+add_dependencies(${target_name} ${namespace}::${PROJECT_NAME})
 # Link the executable to library (if it uses it). I added the lst_external here
 # to be available in the main file (you can remove)
-target_link_libraries(main PRIVATE ${namespace}::${PROJECT_NAME}
-                                   ${lst_external})
+target_link_libraries(${target_name} PRIVATE ${namespace}::${PROJECT_NAME})
 target_set_warnings(
-  main
+  ${target_name}
   ENABLE
   ALL
   AS_ERROR
@@ -22,7 +24,8 @@ target_enable_lto(main optimized) # enable link-time-optimization if available
 set(file_to_copy "${CMAKE_CURRENT_LIST_DIR}/../LICENSE")
 
 add_custom_command(
-  TARGET main
+  TARGET ${target_name}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${file_to_copy} $<TARGET_FILE_DIR:main>)
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${file_to_copy}
+          $<TARGET_FILE_DIR:main>)
 # ------------------------------------------------------------------------------------------------------------
