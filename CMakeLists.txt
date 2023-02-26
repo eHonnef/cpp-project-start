@@ -1,7 +1,7 @@
 # --------------------------------------------------------------------------------
 # General project settings
 # --------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.25)
 
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
@@ -71,7 +71,7 @@ file(GLOB_RECURSE src_files CONFIGURE_DEPENDS "${src_dir}/*.cpp")
 # --------------------------------------------------------------------------------
 # create libraries
 # --------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} OBJECT EXCLUDE_FROM_ALL ${src_files})
+add_library(${PROJECT_NAME} OBJECT ${src_files})
 add_library(${namespace}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(
@@ -83,7 +83,7 @@ target_include_directories(
 # Third party stuff
 # --------------------------------------------------------------------------------
 # Including the thirdparty deps
-add_subdirectory(thirdparty EXCLUDE_FROM_ALL)
+add_subdirectory(thirdparty)
 
 # Linking external deps
 target_link_libraries(${PROJECT_NAME} PUBLIC 3rdPartyBlob)
@@ -96,5 +96,9 @@ if(${main_project})
   add_subdirectory(app)
 
   # Testings
-  add_subdirectory(tests)
+  if (${enable_tests})
+    message(STATUS "Tests are enabled")
+    enable_testing()
+    add_subdirectory(tests)
+  endif()
 endif()

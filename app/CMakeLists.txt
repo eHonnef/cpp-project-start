@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.25)
 
 # ------------------------------------------------------------------------------------------------------------
 # Add an executable for the main files app/main.cpp. If you add more

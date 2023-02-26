@@ -2,7 +2,7 @@
   "version": 6,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 23,
+    "minor": 25,
     "patch": 0
   },
   "configurePresets": [
@@ -62,6 +62,47 @@
       "targets": [
         "coverage"
       ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug_unit_tests",
+      "displayName": "Debug Unit Tests",
+      "description": "Preset for ctest using the debug configuration",
+      "configurePreset": "Debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "release_unit_tests",
+      "displayName": "Release Unit Tests",
+      "description": "Preset for ctest using the release configuration",
+      "configurePreset": "Release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "RelWithDebInfo_unit_tests",
+      "displayName": "RelWithDebInfo Unit Tests",
+      "description": "Preset for ctest using the RelWithDebInfo configuration",
+      "configurePreset": "RelWithDebInfo",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
     }
   ]
 }
