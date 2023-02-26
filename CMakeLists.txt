@@ -71,7 +71,7 @@ file(GLOB_RECURSE src_files CONFIGURE_DEPENDS "${src_dir}/*.cpp")
 # --------------------------------------------------------------------------------
 # create libraries
 # --------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} OBJECT ${src_files})
+add_library(${PROJECT_NAME} OBJECT EXCLUDE_FROM_ALL ${src_files})
 add_library(${namespace}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(
@@ -83,7 +83,7 @@ target_include_directories(
 # Third party stuff
 # --------------------------------------------------------------------------------
 # Including the thirdparty deps
-add_subdirectory(thirdparty)
+add_subdirectory(thirdparty EXCLUDE_FROM_ALL)
 
 # Linking external deps
 target_link_libraries(${PROJECT_NAME} PUBLIC 3rdPartyBlob)

@@ -1,11 +1,11 @@
 # --------------------------------------------------------------------------------
 # Third party libraries
 # --------------------------------------------------------------------------------
-add_library(3rdPartyBlob INTERFACE)
+add_library(3rdPartyBlob INTERFACE EXCLUDE_FROM_ALL)
 add_library(${namespace}::3rdPartyBlob ALIAS 3rdPartyBlob)
 
 # Including stuff using fetch content
-include(./FetchExternal.cmake)
+include(FetchExternal)
 
 # Including stuff using submodules
 add_subdirectory(units)
