@@ -5,10 +5,11 @@ cmake_minimum_required(VERSION 3.25)
 # executables, copy these lines accordingly.
 set(target_name main)
 add_executable(${target_name} Main.cpp) # Name of exec. and location of file.
+
 # Dependencies
 add_dependencies(${target_name} ${namespace}::${PROJECT_NAME})
-# Link the executable to library (if it uses it). I added the lst_external here
-# to be available in the main file (you can remove)
+
+# Link the executable to library (if it uses it).
 target_link_libraries(${target_name} PRIVATE ${namespace}::${PROJECT_NAME})
 target_set_warnings(
   ${target_name}

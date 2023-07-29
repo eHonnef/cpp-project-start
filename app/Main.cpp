@@ -1,5 +1,4 @@
 #include <Config.hpp>
-#include <fmt/core.h>
 #include <sample/Example.hpp>
 #include <stdlib.h>
 

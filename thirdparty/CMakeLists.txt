@@ -1,6 +1,7 @@
 # --------------------------------------------------------------------------------
 # Third party libraries
 # --------------------------------------------------------------------------------
+set(3rdPartyBlob "${PROJECT_NAME}::3rdPartyBlob")
 add_library(3rdPartyBlob INTERFACE)
 add_library(${namespace}::3rdPartyBlob ALIAS 3rdPartyBlob)
 

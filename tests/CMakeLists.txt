@@ -6,7 +6,7 @@ include(Doctest)
 file(GLOB_RECURSE test_src_files CONFIGURE_DEPENDS "*.cpp")
 
 set(TEST_MAIN unit_tests) # Default name for test executable
-set(TEST_RUNNER_PARAMS "") # Any arguemnts to feed the test runner
+set(TEST_RUNNER_PARAMS "") # Any arguments to feed the test runner
 
 # --------------------------------------------------------------------------------
 # Make Tests

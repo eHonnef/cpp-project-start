@@ -1,16 +1,15 @@
 # --------------------------------------------------------------------------------
-# CMake configuration
+# CMake configuration and safeguarding
 # --------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.25)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-# Ask CMake to output a compile_commands.json file for use with things like Vim YCM.
+# Ask CMake to output a compile_commands.json file for use with things like Vim.
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
-include(Colors)
 
 # check if this is the main project
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  include(Colors)
   message(STATUS "+++ This is the main project +++")
   set(main_project ON)
 else()
@@ -22,10 +21,10 @@ if(${main_project})
   include(ConfigSafeGuards)
   message(STATUS "Using toolchain: ${toolchain}")
   include(${toolchain})
+  include(Warnings)
 endif()
 
 include(LTO)
-include(Warnings)
 
 # --------------------------------------------------------------------------------
 # General project settings
@@ -59,7 +58,7 @@ option(enable_documentation "Enable the documentation build" OFF)
 # --------------------------------------------------------------------------------
 # Include cmake stuff
 # --------------------------------------------------------------------------------
-# include(Documentation)
+include(Documentation)
 include(Misc)
 
 # Check for LTO support.
@@ -75,7 +74,7 @@ set(include_dir ${code_dir}/include)
 file(GLOB_RECURSE src_files CONFIGURE_DEPENDS "${src_dir}/*.cpp")
 
 # --------------------------------------------------------------------------------
-# create libraries
+# Create code libraries
 # --------------------------------------------------------------------------------
 add_library(${PROJECT_NAME} OBJECT ${src_files})
 add_library(${namespace}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -85,6 +84,16 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${include_dir}>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION})
 
+target_enable_lto(${PROJECT_NAME} optimized)
+target_set_warnings(
+  ${PROJECT_NAME}
+  ENABLE
+  ALL
+  AS_ERROR
+  ALL
+  DISABLE
+  Annoying) # Set warnings (if needed).
+
 # --------------------------------------------------------------------------------
 # Third party stuff
 # --------------------------------------------------------------------------------
@@ -92,7 +101,7 @@ target_include_directories(
 add_subdirectory(thirdparty)
 
 # Linking external deps
-target_link_libraries(${PROJECT_NAME} PUBLIC 3rdPartyBlob)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${namespace}::3rdPartyBlob)
 
 # --------------------------------------------------------------------------------
 # Main files target
