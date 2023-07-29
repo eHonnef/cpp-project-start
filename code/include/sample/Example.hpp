@@ -4,11 +4,14 @@
  * This is a dummy class to demonstrate features of the boiler plate.
  */
 class Dummy {
+private:
+  int m_nValue;
+
 public:
   /**
-   * Default constructor for Dummy (does nothing).
+   * Default constructor for Dummy.
    */
-  Dummy();
+  Dummy(int nValue);
   /**
    * Returns a bool.
    * @return Always True.

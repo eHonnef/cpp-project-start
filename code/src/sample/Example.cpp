@@ -2,8 +2,11 @@
 #include <fmt/core.h>
 #include <sample/Example.hpp>
 #include <units.h>
+#include <vector>
 
-Dummy::Dummy() {}
+Dummy::Dummy(int nValue) {
+  m_nValue = nValue;
+}
 
 bool Dummy::doSomething() {
   // Do silly things, using some C++17 features to enforce C++17 builds only.
@@ -13,7 +16,7 @@ bool Dummy::doSomething() {
 }
 
 void Dummy::PrintStuff() {
-  constexpr int nCelsius = 30;
+  int nCelsius = m_nValue;
   fmt::print("{}ª Celsius is {} kelvins\n", nCelsius,
              units::convert<units::temperature::celsius, units::temperature::kelvin>(nCelsius));
 }

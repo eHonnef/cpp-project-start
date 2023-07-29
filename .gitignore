@@ -1,6 +1,10 @@
 # Build folder
 build
 
+# Sublime stuff
+.sublime/.cache.json
+.sublime/project.sublime-workspace
+
 # Prerequisites
 *.d
 

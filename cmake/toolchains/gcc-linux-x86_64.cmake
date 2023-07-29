@@ -12,3 +12,8 @@ set(CMAKE_GCOV                      gcov${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNA
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+if (cmake_build_type_tolower STREQUAL "debug" OR cmake_build_type_tolower STREQUAL "coverage" OR cmake_build_type_tolower STREQUAL "relwithdebinfo")
+	message(STATUS "+++ Setting debug flags +++")
+	add_compile_options(-ggdb)
+endif()

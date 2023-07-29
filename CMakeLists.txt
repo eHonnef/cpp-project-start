@@ -1,16 +1,35 @@
 # --------------------------------------------------------------------------------
-# General project settings
+# CMake configuration
 # --------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.25)
 
-
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+# Ask CMake to output a compile_commands.json file for use with things like Vim YCM.
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 include(Colors)
-message(STATUS "Using toolchain: ${toolchain}")
-# include(toolchains/${toolchain})
+
+# check if this is the main project
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  message(STATUS "+++ This is the main project +++")
+  set(main_project ON)
+else()
+  message(STATUS "+++ Not the main project +++")
+  set(main_project OFF)
+endif()
+
+if(${main_project})
+  include(ConfigSafeGuards)
+  message(STATUS "Using toolchain: ${toolchain}")
+  include(${toolchain})
+endif()
+
 include(LTO)
 include(Warnings)
 
+# --------------------------------------------------------------------------------
+# General project settings
+# --------------------------------------------------------------------------------
 project(
   SampleProject # Project name
   VERSION 1.2.3.4 # Project version
@@ -24,22 +43,13 @@ set(CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 20)
 
-# check if this is the main project
-set(main_project OFF)
-if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-  message(STATUS "+++ This is the main project +++")
-  set(main_project ON)
-else()
-  message(STATUS "+++ Not the main project +++")
-endif()
-
 # Enable/disable options (these can be overriden by the command line)
 option(
   ENABLE_WARNINGS_SETTINGS
   "Allow target_set_warnings to add flags and defines.
                                  Set this to OFF if you want to provide your own warning parameters."
   ${main_project})
-option(enable_lto "Enable link time optimization" ON)
+option(enable_lto "Enable link time optimization" OFF)
 option(
   enable_tests
   "Include tests in the library. Setting this to OFF will remove all doctest related code."
@@ -49,12 +59,8 @@ option(enable_documentation "Enable the documentation build" OFF)
 # --------------------------------------------------------------------------------
 # Include cmake stuff
 # --------------------------------------------------------------------------------
-include(Documentation)
+# include(Documentation)
 include(Misc)
-
-if(${main_project})
-  include(ConfigSafeGuards)
-endif()
 
 # Check for LTO support.
 find_lto(CXX)
@@ -96,7 +102,7 @@ if(${main_project})
   add_subdirectory(app)
 
   # Testings
-  if (${enable_tests})
+  if(${enable_tests})
     message(STATUS "Tests are enabled")
     enable_testing()
     add_subdirectory(tests)
