@@ -27,11 +27,11 @@ include(ConfigSafeGuards)
 # General project settings
 # --------------------------------------------------------------------------------
 project(
-  SampleProject # Project name
-  VERSION 1.2.3.4 # Project version
+  SampleProject__header_only # Project name
+  VERSION 1.0.0.0 # Project version
   LANGUAGES CXX # Project language
 )
-set(namespace SampleProject)
+set(namespace SampleProject_header)
 
 # General C++ settings
 set(CXX_STANDARD_REQUIRED ON) # Requires C++ standard
@@ -73,39 +73,28 @@ set(src_dir ${code_dir}/src)
 # Where the headers files are located
 set(include_dir ${code_dir}/include)
 
-file(GLOB_RECURSE src_files CONFIGURE_DEPENDS "${src_dir}/*.cpp")
+set(src_files)
+# file(GLOB_RECURSE src_files CONFIGURE_DEPENDS "${src_dir}/*.cpp")
 file(GLOB_RECURSE header_files CONFIGURE_DEPENDS "${include_dir}/*.hpp")
 
 # --------------------------------------------------------------------------------
 # Create code libraries
 # --------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} OBJECT ${src_files})
+add_library(${PROJECT_NAME} INTERFACE ${header_files} ${src_files})
 add_library(${namespace}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-
 target_include_directories(
-  ${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${include_dir}>
+  ${PROJECT_NAME} INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/code/include>
     $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 include("${CMAKE_CURRENT_LIST_DIR}/thirdparty/thirdparty.cmake")
 add_dependencies(${PROJECT_NAME} units fmt::fmt)
-target_link_libraries(${PROJECT_NAME} PRIVATE units fmt::fmt)
+target_link_libraries(${PROJECT_NAME} INTERFACE units fmt::fmt)
 
 if(${cmake_build_type_tolower} STREQUAL "release" OR ${cmake_build_type_tolower}
                                                      STREQUAL "relwithdebinfo")
   target_enable_lto(${PROJECT_NAME} optimized)
-endif()
-
-if(${main_project})
-  target_set_warnings(
-    ${PROJECT_NAME}
-    ENABLE
-    ALL
-    AS_ERROR
-    ALL
-    DISABLE
-    Annoying)
 endif()
 
 # --------------------------------------------------------------------------------

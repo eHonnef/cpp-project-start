@@ -7,10 +7,10 @@ set(target_name main)
 add_executable(${target_name} Main.cpp) # Name of exec. and location of file.
 
 # Dependencies
-add_dependencies(${target_name} SampleProject::SampleProject)
+add_dependencies(${target_name} SampleProject_header::SampleProject__header_only)
 
 # Link the executable to library (if it uses it).
-target_link_libraries(${target_name} PRIVATE SampleProject::SampleProject)
+target_link_libraries(${target_name} PRIVATE SampleProject_header::SampleProject__header_only)
 target_set_warnings(
   ${target_name}
   ENABLE

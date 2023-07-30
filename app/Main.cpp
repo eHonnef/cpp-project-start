@@ -1,4 +1,4 @@
-#include <sample/Example.hpp>
+#include <sampleheader/Exampleheader.hpp>
 #include <stdlib.h>
 
 /*
@@ -10,7 +10,7 @@ int main() {
 
   // Bring in the dummy class from the example source,
   // just to show that it is accessible from main.cpp.
-  Dummy d = Dummy(587);
+  DummyHeader d{587};
   d.PrintStuff();
   d.PrintVersion();
   return d.doSomething() ? 0 : -1;
