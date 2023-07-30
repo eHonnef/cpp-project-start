@@ -29,4 +29,10 @@ public:
    *
    */
   void PrintVersion();
+
+  /**
+   * @brief      A header implemented function.
+   * @return     An integer.
+   */
+  int HeaderImplemented() { return m_nValue; }
 };

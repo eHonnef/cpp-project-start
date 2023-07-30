@@ -1,4 +1,3 @@
-#include <Config.hpp>
 #include <sample/Example.hpp>
 #include <stdlib.h>
 

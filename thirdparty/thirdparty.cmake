@@ -1,13 +1,14 @@
 # --------------------------------------------------------------------------------
-# FetchExternal
+# Third party dependencies
+# --------------------------------------------------------------------------------
+set(3rdPartyBlob "${PROJECT_NAME}__3rdPartyBlob")
+
+# --------------------------------------------------------------------------------
+# Fetch external
 # --------------------------------------------------------------------------------
 include(FetchContent)
-# --------------------------------------------------------------------------------
-# Import all external libraries using FetchContent.
-#
-# External dependency example. If your project doesn't have an external
-# dependency, remove the line below.
-# --------------------------------------------------------------------------------
+
+# Import external libraries using FetchContent.
 FetchContent_Declare(
   fmtlib
   GIT_REPOSITORY "https://github.com/fmtlib/fmt"
@@ -17,11 +18,8 @@ FetchContent_Declare(
   # https://gitlab.kitware.com/cmake/cmake/-/issues/20167
 )
 set(FMT_INSTALL ON)
-# FetchContent_MakeAvailable(fmtlib)
-if(NOT fmtlib_POPULATED)
-  message(STATUS "Cloning fmtlib")
-  FetchContent_Populate(fmtlib)
-  add_subdirectory(${fmtlib_SOURCE_DIR} ${fmtlib_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+FetchContent_MakeAvailable(fmtlib)
 # --------------------------------------------------------------------------------
-list(APPEND lst_external fmt::fmt)
+# Submodules dependencies
+# --------------------------------------------------------------------------------
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/units)

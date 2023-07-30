@@ -4,9 +4,7 @@
 #include <units.h>
 #include <vector>
 
-Dummy::Dummy(int nValue) {
-  m_nValue = nValue;
-}
+Dummy::Dummy(int nValue) { m_nValue = nValue; }
 
 bool Dummy::doSomething() {
   // Do silly things, using some C++17 features to enforce C++17 builds only.
@@ -16,12 +14,15 @@ bool Dummy::doSomething() {
 }
 
 void Dummy::PrintStuff() {
-  int nCelsius = m_nValue;
-  fmt::print("{}ª Celsius is {} kelvins\n", nCelsius,
-             units::convert<units::temperature::celsius, units::temperature::kelvin>(nCelsius));
+  int nCelsius = this->HeaderImplemented();
+  auto nKelvin =
+      units::convert<units::temperature::celsius, units::temperature::kelvin>(
+          nCelsius);
+  fmt::print("{}ª Celsius is {} kelvins\n", nCelsius, nKelvin);
 }
 
 void Dummy::PrintVersion() {
-  fmt::print("C++ Project starter v{}.{}.{}.{}\n", PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR,
-             PROJECT_VERSION_PATCH, PROJECT_VERSION_TWEAK);
+  fmt::print("C++ Project starter v{}.{}.{}.{}\n", PROJECT_VERSION_MAJOR,
+             PROJECT_VERSION_MINOR, PROJECT_VERSION_PATCH,
+             PROJECT_VERSION_TWEAK);
 }
